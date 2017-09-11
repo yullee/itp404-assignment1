@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    
+    <meta charset="utf-8">
+    <title>Callbacks</title>
+</head>
+
+<body>
+    <div id="results"></div> 
+    <button>Click</button>
+    
+    <script src="jquery-3.2.1.js"></script>
+    <script>
+        var i = 0; 
+        $('button').on('click', function(){
+            $('#results').text('Loading...'); 
+            
+            // Call back function
+            $.getJSON('https://www.reddit.com/r/javascript.json', function(results){
+                console.log(results); 
+
+                $('#results').text(''); 
+
+                for(i = 0; i < results.data.children.length; i++){
+                    $('#results').append((i + 1) + '. '+ results.data.children[i].data.title + '<br />');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
