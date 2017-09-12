@@ -8,67 +8,24 @@
 </head>
 
 <body>
-    <p> Reddit API </p>
-    <input type="text" id="reddits" onkeypress="submitOn(this, event);" autocomplete="off" autofocus/>
-    <button id="box">SEARCH</button>
-
-    <div id="error"></div>
     <div id="result"></div>
-    
+    <button>View All</button>
     
     <script src="jquery-3.2.1.js"></script>
     <script>
-        function submitOn(inputElement, event) {
-            if (event.keyCode == 13) { 
-                inputElement.form.submit();
-            }
-        }
-        var i = 0; 
+        var i = 0; // Create a variable i
         $('button').on('click', function() {
-            $('#results').text('Loading...'); 
-            
+            $('#result').text('Loading...'); // Loading indicator
+
+            // Promise function
             $.getJSON('https://www.reddit.com/r/javascript.json').then(function(results) {
                 console.log(results);
-                var userSearch = document.querySelector('#reddits').value;
-                userSearch = userSearch.trim();
-                add = [];
-                if(userSearch.length == 0 || userSearch == null ){
-                $('#results').text('');
-                document.querySelector('#error').innerHTML = 'Opps! Something went wrong!';
-                 
-                }
-                
-                else{
-                    
-                $('#error').text('');
-                $('#results').text('');
-                
-                var regExp = new RegExp("\\b"+ userSearch +"\\b", 'gi');
-                userSearch = ''; // clear the text input
-                    
-                for(i = 0; i < results.data.children.length; i++) {
-                    var info = results.data.children[i].data;
-                    
-                    if(info.title.match(regExp) != null){
-                    // post title
-                    $('#result').append(i+1 + '. ' + info.title + '<br />');
-                    
-                    // url
-                    $('#result').append(info.url + '<br />'); 
-                    
-                    // the score property
-                    $('#result').append("Score: " + info.score + '<br />');
-                    if(results.data.children[i].data.num_comments > 0) {
-                        $('#result').append("Number of comments: " + info.num_comments + '<br /><br/>');
-                    }
-                    else {
-                        $('#result').append("No comments."+ '<br /><br/>');
-                    }
-                }
+                $('#result').text('');
+                for(i = 0; i < results.data.children.length; i++){
+                     $('#result').append(i+1 + '. ' + results.data.children[i].data.title + '<br />');
                  }
-                }
             }, function(error) {
-                console.log('an error occurred');
+                console.log('Error!');
             });
         });
     </script>

@@ -8,24 +8,23 @@
 </head>
 
 <body>
-    <div id="results"></div> 
-    <div></div>
-    <button>Click</button>
+    <div id="result"></div> 
+    <button>View All</button>
     
     <script src="jquery-3.2.1.js"></script>
     <script>
-        var i = 0; 
+        var i = 0; // Create a variable i
         $('button').on('click', function(){
-            $('#results').text('Loading...'); 
+            $('#result').text('Loading...'); // Loading indicator
             
             // Call back function
             $.getJSON('https://www.reddit.com/r/javascript.json', function(results){
                 console.log(results); 
 
-                $('#results').text(''); 
+                $('#result').text(''); // Clear the result
 
                 for(i = 0; i < results.data.children.length; i++){
-                    $('#results').append((i + 1) + '. '+ results.data.children[i].data.title + '<br />');
+                    $('#result').append((i + 1) + '. '+ results.data.children[i].data.title + '<br />');
                 }
             });
         });
